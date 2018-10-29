@@ -2,7 +2,7 @@
   "DATABASE_HOST" : "localhost",
   "DATABASE_PORT" : 3306,
   "DATABASE_USERNAME" : "root",
-  "DATABASE_PASSWORD" : "password",
+  "DATABASE_PASSWORD" : "hello",
   "DATABASE_NAME" : "cbsexam",
   "ENCRYPTION" : true,
   "SOLR_HOST" : "localhost",
