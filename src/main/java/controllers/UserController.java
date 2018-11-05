@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import model.User;
+import utils.Hashing;
 import utils.Log;
 
 public class UserController {
@@ -114,7 +115,8 @@ public class UserController {
             + "', '"
             + user.getLastname()
             + "', '"
-            + user.getPassword()
+                //Her tilføjer jeg hashing til mit kodeord
+            + Hashing.md5(user.getPassword())
             + "', '"
             + user.getEmail()
             + "', "
@@ -132,4 +134,21 @@ public class UserController {
     // Return user
     return user;
   }
+
+  public static void deleteUser(int id) {
+
+    //Skal denne være der?
+    //Log.writeLog(UserController.class.getName(), user, "Deleting a user", 0);
+
+    // Check for DB Connection
+    if (dbCon == null) {
+      dbCon = new DatabaseController();
+    }
+
+    String sql = "Delete FROM user WHERE id = " + id;
+
+    dbCon.deleteUser(sql);
+
+  }
+
 }
