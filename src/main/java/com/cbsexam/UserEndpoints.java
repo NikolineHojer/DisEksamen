@@ -23,7 +23,8 @@ public class UserEndpoints {
    */
   @GET
   @Path("/{idUser}")
-  public Response getUser(@PathParam("idUser") int idUser) {
+  public Response getUser(@PathParam("idUser") int idUser)
+  {
 
     // Use the ID to get the user from the controller.
     User user = UserController.getUser(idUser);
@@ -34,10 +35,24 @@ public class UserEndpoints {
 
     // Return the user with the status code 200
     // TODO: What should happen if something breaks down?
-    return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity(json).build();
+    //return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity(json).build();
+
+   try {
+     if (user != null) {
+      // Return a response with status 200 and JSON as type
+       return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity(json).build();
+     }else {
+       return Response.status(400).entity("Could not find user").build(); }
+   }catch (Exception e)
+   {
+     System.out.println(e.getMessage());
+   }
+
+   //TO be continue...
+  return null;
   }
 
-  UserCache userCache = new UserCache();
+  static UserCache userCache = new UserCache();
 
   /** @return Responses */
   @GET

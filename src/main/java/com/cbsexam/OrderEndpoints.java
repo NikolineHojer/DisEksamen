@@ -35,7 +35,7 @@ public class OrderEndpoints {
     return Response.status(200).type(MediaType.APPLICATION_JSON).entity(json).build();
   }
 
-  OrderCache orderCache = new OrderCache();
+  static OrderCache orderCache = new OrderCache();
 
   /** @return Responses */
   @GET

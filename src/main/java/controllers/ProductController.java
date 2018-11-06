@@ -43,7 +43,7 @@ public class ProductController {
         // Return the product
         return product;
       } else {
-        System.out.println("No user found");
+        System.out.println("No product found");
       }
     } catch (SQLException ex) {
       System.out.println(ex.getMessage());
@@ -77,7 +77,7 @@ public class ProductController {
 
         return product;
       } else {
-        System.out.println("No user found");
+        System.out.println("No product found");
       }
     } catch (SQLException ex) {
       System.out.println(ex.getMessage());
@@ -108,7 +108,7 @@ public class ProductController {
         Product product =
             new Product(
                 rs.getInt("id"),
-                rs.getString("name"),
+                rs.getString("product_name"),
                 rs.getString("sku"),
                 rs.getFloat("price"),
                 rs.getString("description"),
