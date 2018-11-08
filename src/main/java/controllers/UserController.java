@@ -135,10 +135,42 @@ public class UserController {
     return user;
   }
 
+
+  /*public static User loginUser(User user) {
+
+    // Write in log that we've reach this step
+    Log.writeLog(UserController.class.getName(), user, "Actually creating a user in DB", 0);
+
+    // Set creation time for user.
+    user.setCreatedTime(System.currentTimeMillis() / 1000L);
+
+    // Check for DB Connection
+    if (dbCon == null) {
+      dbCon = new DatabaseController();
+    }
+
+    // Insert the user in the DB
+    // TODO: Hash the user password before saving it.
+    int userID = dbCon.insert(
+            "INSERT INTO user(first_name, last_name, password, email, created_at) VALUES('"
+                    + user.getFirstname()
+                    + "', '"
+                    + user.getLastname()
+                    + "', '"
+                    //Her tilføjer jeg hashing til mit kodeord
+                    + Hashing.md5(user.getPassword())
+                    + "', '"
+                    + user.getEmail()
+                    + "', "
+                    + user.getCreatedTime()
+                    + ")");
+
+*/
+
   public static void deleteUser(int id) {
 
-    //Skal denne være der?
-    //Log.writeLog(UserController.class.getName(), user, "Deleting a user", 0);
+    //Skal denne være her?
+    //Log.writeLog(UserController.class.getName(), user, "Deleting a user in DB", 0);
 
     // Check for DB Connection
     if (dbCon == null) {

@@ -43,12 +43,11 @@ public class UserEndpoints {
        return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity(json).build();
      }else {
        return Response.status(400).entity("Could not find user").build(); }
-   }catch (Exception e)
-   {
+   }catch (Exception e) {
      System.out.println(e.getMessage());
    }
 
-   //TO be continue...
+   //TO be continued...
   return null;
   }
 
