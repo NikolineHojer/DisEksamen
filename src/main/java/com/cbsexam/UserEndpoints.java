@@ -4,11 +4,7 @@ import cache.UserCache;
 import com.google.gson.Gson;
 import controllers.UserController;
 import java.util.ArrayList;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import model.User;
@@ -110,23 +106,21 @@ public class UserEndpoints {
       return Response.status(400).entity("Could not login user").build();
     }
 
-
   }
 
 
   // TODO: Make the system able to delete users
-  @POST
-  @Path("delete/{delete}")
-  public Response deleteUser(@PathParam("delete") int idToDelete) {
+  @DELETE
+  @Path("/delete")
+  public Response deleteUser(String body) {
 
-    UserController.deleteUser(idToDelete);
+    User user = new Gson().fromJson(body, User.class);
+    if (UserController.deleteUser(user.getToken())) {
 
-    if (idToDelete != 0) {
-
-      return Response.status(200).entity("brugeren med id´et " + idToDelete + " er slettet").build();
+      return Response.status(200).entity("Bruger er slettet").build();
     } else {
       // Return a response with status 200 and JSON as type
-      return Response.status(400).entity("Endpoint not implemented yet").build();
+      return Response.status(400).entity("Brugeren findes ikke").build();
     }
   }
 

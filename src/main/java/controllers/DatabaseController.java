@@ -124,17 +124,20 @@ public class DatabaseController {
     }
   }
 
-  public void deleteUser (String sql) {
+  public boolean deleteUser (String sql) {
     if (connection == null)
       connection = getConnection();
 
     try {
-      PreparedStatement statement = connection.prepareStatement(sql);
-      statement.executeUpdate();
+      PreparedStatement deleteUser = connection.prepareStatement(sql);
+      deleteUser.executeUpdate();
+      return true;
 
     } catch (SQLException e) {
       System.out.println(e.getMessage());
     }
+
+    return false;
   }
 
 }
