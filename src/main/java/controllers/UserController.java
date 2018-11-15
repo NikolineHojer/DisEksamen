@@ -2,7 +2,12 @@ package controllers;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLWarning;
 import java.util.ArrayList;
+
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTCreationException;
 import model.User;
 import utils.Hashing;
 import utils.Log;
@@ -135,37 +140,53 @@ public class UserController {
     return user;
   }
 
+  public static String loginUser(User user){
 
-  /*public static User loginUser(User user) {
-
-    // Write in log that we've reach this step
-    Log.writeLog(UserController.class.getName(), user, "Actually creating a user in DB", 0);
-
-    // Set creation time for user.
-    user.setCreatedTime(System.currentTimeMillis() / 1000L);
-
-    // Check for DB Connection
-    if (dbCon == null) {
+    //Checker for DB connection
+    if (dbCon == null){
       dbCon = new DatabaseController();
     }
 
-    // Insert the user in the DB
-    // TODO: Hash the user password before saving it.
-    int userID = dbCon.insert(
-            "INSERT INTO user(first_name, last_name, password, email, created_at) VALUES('"
-                    + user.getFirstname()
-                    + "', '"
-                    + user.getLastname()
-                    + "', '"
-                    //Her tilføjer jeg hashing til mit kodeord
-                    + Hashing.md5(user.getPassword())
-                    + "', '"
-                    + user.getEmail()
-                    + "', "
-                    + user.getCreatedTime()
-                    + ")");
+    String sql = "SELECT * FROM user where email = '" + user.getEmail() + "'AND password ='" + user.getPassword() + "'";
 
-*/
+    dbCon.loginUser(sql);
+
+    ResultSet resultSet = dbCon.query((sql));
+    User userLogin;
+    String token = null;
+
+    try{
+      if (resultSet.next()){
+        userLogin =
+                new User(
+                        resultSet.getInt("id"),
+                        resultSet.getString("first_name"),
+                        resultSet.getString("last_name"),
+                        resultSet.getString("password"),
+                        resultSet.getString("email"));
+
+        if (userLogin != null) {
+          try {
+            Algorithm algorithm = Algorithm.HMAC256("secret");
+            token = JWT.create()
+                    .withClaim("userid", userLogin.getId())
+                    .withIssuer("auth0")
+                    .sign(algorithm);
+          } catch (JWTCreationException e) {
+            System.out.println(e.getMessage());
+          } finally {
+            return token;
+          }
+        }
+      } else {
+        System.out.println("No user found");
+      }
+    } catch (SQLException e){
+      System.out.println(e.getMessage());
+    }
+      return " ";
+
+  }
 
   public static void deleteUser(int id) {
 

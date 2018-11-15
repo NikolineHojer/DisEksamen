@@ -111,6 +111,18 @@ public class DatabaseController {
     return result;
   }
 
+  public void loginUser (String sql){
+    if(connection == null)
+      connection = getConnection();
+
+    try{
+      PreparedStatement statement = connection.prepareStatement(sql);
+      statement.executeUpdate();
+
+    }catch (SQLException e){
+      System.out.println(e.getMessage());
+    }
+  }
 
   public void deleteUser (String sql) {
     if (connection == null)

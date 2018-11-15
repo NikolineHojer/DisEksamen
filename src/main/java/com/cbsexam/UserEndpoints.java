@@ -45,10 +45,8 @@ public class UserEndpoints {
        return Response.status(400).entity("Could not find user").build(); }
    }catch (Exception e) {
      System.out.println(e.getMessage());
-   }
+     return Response.status(500).entity("Der gik noget galt").build(); }
 
-   //TO be continued...
-  return null;
   }
 
   static UserCache userCache = new UserCache();
@@ -99,10 +97,20 @@ public class UserEndpoints {
   @POST
   @Path("/login")
   @Consumes(MediaType.APPLICATION_JSON)
-  public Response loginUser(String x) {
+  public Response loginUser(String body) {
 
-    // Return a response with status 200 and JSON as type
-    return Response.status(400).entity("Endpoint not implemented yet").build();
+    User user = new Gson().fromJson(body, User.class);
+
+    String token = UserController.loginUser(user);
+
+    if (token != ""){
+      return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity(token).build();
+    } else {
+      // Return a response with status 200 and JSON as type
+      return Response.status(400).entity("Could not login user").build();
+    }
+
+
   }
 
 
