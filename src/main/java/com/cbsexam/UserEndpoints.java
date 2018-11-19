@@ -19,8 +19,7 @@ public class UserEndpoints {
    */
   @GET
   @Path("/{idUser}")
-  public Response getUser(@PathParam("idUser") int idUser)
-  {
+  public Response getUser(@PathParam("idUser") int idUser) {
 
     // Use the ID to get the user from the controller.
     User user = UserController.getUser(idUser);
@@ -33,21 +32,25 @@ public class UserEndpoints {
     // TODO: What should happen if something breaks down?
     //return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity(json).build();
 
-   try {
-     if (user != null) {
-      // Return a response with status 200 and JSON as type
-       return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity(json).build();
-     }else {
-       return Response.status(400).entity("Could not find user").build(); }
-   }catch (Exception e) {
-     System.out.println(e.getMessage());
-     return Response.status(500).entity("Der gik noget galt").build(); }
+    try {
+      if (user != null) {
+        // Return a response with status 200 and JSON as type
+        return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity(json).build();
+      } else {
+        return Response.status(400).entity("Could not find user").build();
+      }
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+      return Response.status(500).entity("Der gik noget galt").build();
+    }
 
   }
 
   static UserCache userCache = new UserCache();
 
-  /** @return Responses */
+  /**
+   * @return Responses
+   */
   @GET
   @Path("/")
   public Response getUsers() {
@@ -99,10 +102,9 @@ public class UserEndpoints {
 
     String token = UserController.loginUser(user);
 
-    if (token != ""){
+    if (token != "") {
       return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity(token).build();
     } else {
-      // Return a response with status 200 and JSON as type
       return Response.status(400).entity("Could not login user").build();
     }
 
@@ -119,17 +121,23 @@ public class UserEndpoints {
 
       return Response.status(200).entity("Bruger er slettet").build();
     } else {
-      // Return a response with status 200 and JSON as type
       return Response.status(400).entity("Brugeren findes ikke").build();
     }
   }
 
 
-
   // TODO: Make the system able to update users
-  public Response updateUser(String x) {
+  @POST
+  @Path("/update")
+  @Consumes(MediaType.APPLICATION_JSON)
+  public Response updateUser(String body) {
 
-    // Return a response with status 200 and JSON as type
-    return Response.status(400).entity("Endpoint not implemented yet").build();
+    User user = new Gson().fromJson(body, User.class);
+    if (UserController.updateUser(user, user.getToken())) {
+
+      return Response.status(200).entity("Brugerns oplysninger er opdateret").build();
+    } else {
+      return Response.status(400).entity("Brugeren findes ikke").build();
+    }
   }
 }

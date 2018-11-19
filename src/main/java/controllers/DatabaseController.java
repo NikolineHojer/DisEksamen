@@ -140,4 +140,19 @@ public class DatabaseController {
     return false;
   }
 
+  public boolean updateUser (String sql){
+    if (connection == null)
+      connection = getConnection();
+
+    try {
+      PreparedStatement updateUser = connection.prepareStatement(sql);
+      updateUser.executeUpdate();
+      return true;
+    } catch (SQLException e){
+      System.out.println(e.getMessage());
+    }
+
+    return false;
+  }
+
 }
