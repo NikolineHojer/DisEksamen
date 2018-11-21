@@ -2,7 +2,6 @@ package controllers;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLWarning;
 import java.util.ArrayList;
 
 import com.auth0.jwt.JWT;
@@ -57,7 +56,6 @@ public class UserController {
       System.out.println(ex.getMessage());
     }
 
-    // Return null
     return user;
   }
 

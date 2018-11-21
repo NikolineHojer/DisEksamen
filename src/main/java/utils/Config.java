@@ -23,6 +23,7 @@ public final class Config {
   private static long ORDER_TTL;
   private static long USER_TTL;
   private static String ENCRYPTION_KEY;
+  private static String SALT_KEY;
 
   public static long getProductTtl() {
     return PRODUCT_TTL;
@@ -33,6 +34,8 @@ public final class Config {
   public static long getUserTtl() {return USER_TTL;}
 
   public static char [] getEncryptionkey () {return ENCRYPTION_KEY.toCharArray();}
+
+  public static String getSaltKey() {return SALT_KEY;}
 
   public static String getDatabaseHost() {
     return DATABASE_HOST;

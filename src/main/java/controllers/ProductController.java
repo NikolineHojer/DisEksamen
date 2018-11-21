@@ -53,6 +53,8 @@ public class ProductController {
     return product;
   }
 
+
+
   public static Product getProductBySku(String sku) {
 
     if (dbCon == null) {
