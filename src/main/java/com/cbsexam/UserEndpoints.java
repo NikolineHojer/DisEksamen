@@ -8,6 +8,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import model.User;
+import utils.Encryption;
 import utils.Log;
 
 @Path("user")
@@ -24,12 +25,13 @@ public class UserEndpoints {
     // Use the ID to get the user from the controller.
     User user = UserController.getUser(idUser);
 
-    // TODO: Add Encryption to JSON
+    // TODO: Add Encryption to JSON: FIX
     // Convert the user object to json in order to return the object
     String json = new Gson().toJson(user);
+    json = Encryption.encryptDecryptXOR(json);
 
     // Return the user with the status code 200
-    // TODO: What should happen if something breaks down?
+    // TODO: What should happen if something breaks down?: FIX
     //return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity(json).build();
 
     try {
@@ -61,9 +63,10 @@ public class UserEndpoints {
     // Get a list of users
     ArrayList<User> users = userCache.getUsers(false);
 
-    // TODO: Add Encryption to JSON
+    // TODO: Add Encryption to JSON: FIX
     // Transfer users to json in order to return it to the user
     String json = new Gson().toJson(users);
+    json = Encryption.encryptDecryptXOR(json);
 
     // Return the users with the status code 200
     return Response.status(200).type(MediaType.APPLICATION_JSON).entity(json).build();
@@ -92,7 +95,7 @@ public class UserEndpoints {
     }
   }
 
-  // TODO: Make the system able to login users and assign them a token to use throughout the system.
+  // TODO: Make the system able to login users and assign them a token to use throughout the system.: FIX
   @POST
   @Path("/login")
   @Consumes(MediaType.APPLICATION_JSON)
@@ -111,7 +114,7 @@ public class UserEndpoints {
   }
 
 
-  // TODO: Make the system able to delete users
+  // TODO: Make the system able to delete users: FIX
   @DELETE
   @Path("/delete")
   public Response deleteUser(String body) {
@@ -126,7 +129,7 @@ public class UserEndpoints {
   }
 
 
-  // TODO: Make the system able to update users
+  // TODO: Make the system able to update users: FIX
   @POST
   @Path("/update")
   @Consumes(MediaType.APPLICATION_JSON)
