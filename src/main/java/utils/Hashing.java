@@ -43,6 +43,7 @@ public final class Hashing {
   // TODO: You should add a salt and make this secure: FIX
   public static String sha(String rawString) {
     try {
+
       // We load the hashing algoritm we wish to use.
       MessageDigest digest = MessageDigest.getInstance("SHA-256");
 

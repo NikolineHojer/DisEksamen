@@ -37,8 +37,9 @@ public class UserCache {
             // Set products for the instance and set created timestamp
             this.users = users;
             this.created = System.currentTimeMillis() / 1000L;
+
             //tester om cachen bliver brugt
-            System.out.println("cache is not used");
+            //System.out.println("cache is not used");
         }
 
         // Return the documents

@@ -46,7 +46,6 @@ public class ProductEndpoints {
   public Response getProducts() {
 
     //Dette løser TODOs inde i productController
-
     ArrayList<Product> products = productCache.getProducts(false);
 
     // TODO: Add Encryption to JSON: FIX

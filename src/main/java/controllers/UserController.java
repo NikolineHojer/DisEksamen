@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import cache.UserCache;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -11,6 +12,7 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import model.User;
+import utils.Config;
 import utils.Hashing;
 import utils.Log;
 
@@ -122,7 +124,7 @@ public class UserController {
             + user.getLastname()
             + "', '"
                 //Her tilføjer jeg hashing til mit kodeord
-            + Hashing.md5(user.getPassword())
+            + Hashing.sha(user.getPassword())
             + "', '"
             + user.getEmail()
             + "', "
@@ -168,10 +170,11 @@ public class UserController {
 
         if (userLogin != null) {
           try {
-            Algorithm algorithm = Algorithm.HMAC256("secret");
+            //Kilde: https://github.com/auth0/java-jwt
+            Algorithm algorithm = Algorithm.HMAC256(Config.getSecretKey());
             token = JWT.create()
                     .withClaim("userid", userLogin.getId())
-                    .withIssuer("auth0")
+                    .withIssuer("cbsexam") //udstedt
                     .sign(algorithm);
           } catch (JWTCreationException e) {
             System.out.println(e.getMessage());
@@ -199,9 +202,10 @@ public class UserController {
     DecodedJWT jwt = null;
 
     try{
-      Algorithm algorithm = Algorithm.HMAC256("secret");
+      //Kilde: https://github.com/auth0/java-jwt
+      Algorithm algorithm = Algorithm.HMAC256(Config.getSecretKey());
       JWTVerifier verifier = JWT.require(algorithm)
-              .withIssuer("auth0")
+              .withIssuer("cbsexam")
               .build();
       jwt = verifier.verify(token);
     } catch (JWTVerificationException e){
@@ -225,9 +229,10 @@ public class UserController {
     DecodedJWT jwt = null;
 
     try{
-      Algorithm algorithm = Algorithm.HMAC256("secret");
+      //Kilde: https://github.com/auth0/java-jwt
+      Algorithm algorithm = Algorithm.HMAC256(Config.getSecretKey());
       JWTVerifier verifier = JWT.require(algorithm)
-              .withIssuer("auth0")
+              .withIssuer("cbsexam")
               .build();
       jwt = verifier.verify(token);
     } catch (JWTVerificationException e)
@@ -236,7 +241,7 @@ public class UserController {
 
     String sql = "UPDATE user SET first_name = '" + user.getFirstname()
             + "', last_name ='" + user.getLastname()
-            + "', password = '" + hashing.md5(user.getPassword())
+            + "', password = '" + hashing.sha(user.getPassword())
             + "', email ='" + user.getEmail() + "' "
             + "WHERE id = " + jwt.getClaim("userid").asInt();
 
