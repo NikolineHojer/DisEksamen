@@ -120,9 +120,9 @@ public class UserEndpoints {
   public Response deleteUser(String body) {
 
     User user = new Gson().fromJson(body, User.class);
-    if (UserController.deleteUser(user.getToken())) {
 
-      return Response.status(200).entity("Bruger er slettet").build();
+    if (UserController.deleteUser(user.getToken())) {
+      return Response.status(200).entity("Brugeren er slettet").build();
     } else {
       return Response.status(400).entity("Brugeren findes ikke").build();
     }
@@ -136,8 +136,8 @@ public class UserEndpoints {
   public Response updateUser(String body) {
 
     User user = new Gson().fromJson(body, User.class);
-    if (UserController.updateUser(user, user.getToken())) {
 
+    if (UserController.updateUser(user, user.getToken())) {
       return Response.status(200).entity("Brugerns oplysninger er opdateret").build();
     } else {
       return Response.status(400).entity("Brugeren findes ikke").build();

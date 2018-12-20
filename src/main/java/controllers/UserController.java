@@ -176,10 +176,10 @@ public class UserController {
                     .withClaim("userid", userLogin.getId())
                     .withIssuer("cbsexam") //udstedt
                     .sign(algorithm);
+            return token;
           } catch (JWTCreationException e) {
             System.out.println(e.getMessage());
-          } finally {
-            return token;
+            return "";
           }
         }
       } else {
@@ -187,8 +187,9 @@ public class UserController {
       }
     } catch (SQLException e){
       System.out.println(e.getMessage());
+      return "";
     }
-      return " ";
+      return "";
 
   }
 
@@ -240,9 +241,9 @@ public class UserController {
       System.out.println(e.getMessage());}
 
     String sql = "UPDATE user SET first_name = '" + user.getFirstname()
-            + "', last_name ='" + user.getLastname()
+            + "', last_name = '" + user.getLastname()
             + "', password = '" + hashing.sha(user.getPassword())
-            + "', email ='" + user.getEmail() + "' "
+            + "', email = '" + user.getEmail() + "' "
             + "WHERE id = " + jwt.getClaim("userid").asInt();
 
     return dbCon.updateUser(sql);

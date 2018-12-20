@@ -79,7 +79,7 @@ public class OrderEndpoints {
     } else {
 
       // Return a response with status 400 and a message in text
-      return Response.status(400).entity("Could not create user").build();
+      return Response.status(400).entity("Could not create order").build();
     }
   }
 }

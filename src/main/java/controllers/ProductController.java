@@ -100,6 +100,7 @@ public class ProductController {
     }
 
     // TODO: Use caching layer.: FIX
+    //Har tilføjet cach i endpoint fremfor her.
     String sql = "SELECT * FROM product";
 
     ResultSet rs = dbCon.query(sql);
@@ -148,9 +149,9 @@ public class ProductController {
             + product.getPrice()
             + "', '"
             + product.getDescription()
-            + "', "
+            + "', '"
             + product.getStock()
-            + "', "
+            + "', '"
             + product.getCreatedTime()
             + ")");
 
